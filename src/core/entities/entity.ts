@@ -10,7 +10,7 @@ export class Entity<T> {
 
   protected constructor(props: T, id?: UniqueEntityId) {
     this.props = props;
-    this._id = id ?? new UniqueEntityId(id);
+    this._id = id ?? new UniqueEntityId();
   }
 
 }
