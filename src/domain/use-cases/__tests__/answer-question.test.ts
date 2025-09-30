@@ -18,5 +18,5 @@ it('should be able to answer a question', async () => {
     content: 'Answer to question',
   });
 
-  expect(answer.content).toBe('Answer to question');
+  expect(answer.content).toEqual('Answer to question');
 });
