@@ -1,23 +1,21 @@
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-quyestions-repository'
 import { GetQuestionBySlugUseCase } from '../get-question-by-slug'
-import { CreateQuestionUseCase } from '../create-question'
+import { makeQuestion } from 'test/factories/make-question'
 
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
-let createQuestion: CreateQuestionUseCase
 let sut: GetQuestionBySlugUseCase
 
 describe('Get Question By Slug', () => {
   beforeEach(() => {
     inMemoryQuestionsRepository = new InMemoryQuestionsRepository()
-    createQuestion = new CreateQuestionUseCase(inMemoryQuestionsRepository)
     sut = new GetQuestionBySlugUseCase(inMemoryQuestionsRepository)
   })
   it('should be able to get a question by slug', async () => {
-    createQuestion.execute({
-      authorId: '1',
+    const newQuestion = makeQuestion({
       title: 'Question Slug',
-      content: 'Question content',
     })
+
+    await inMemoryQuestionsRepository.create(newQuestion)
 
     const { question } = await sut.execute({
       slug: 'question-slug',
