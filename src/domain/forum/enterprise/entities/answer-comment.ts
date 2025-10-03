@@ -1,61 +1,29 @@
-import { Entity } from '@/core/entities/entity'
-import { UniqueEntityId } from '@/core/entities/unique-entity-id'
-import { Optional } from '@/core/types/optional'
+import { Entity } from "@/core/entities/entity";
+import { UniqueEntityId } from "@/core/entities/unique-entity-id";
+import { Optional } from "@/core/types/optional";
+import { Comment, CommentProps } from "./comment";
 
-export interface AnswerCommentProps {
- authorId: UniqueEntityId
- answerId: UniqueEntityId
- content: string
- createdAt: Date
- updatedAt?: Date
+export interface AnswerCommentProps extends CommentProps {
+  answerId: UniqueEntityId;
 }
 
-export class AnswerComment extends Entity<AnswerCommentProps> {
-  get content(): string {
-    return this.props.content
-  }
-
-  get authorId(): UniqueEntityId {
-    return this.props.authorId
-  }
-
+export class AnswerComment extends Comment<AnswerCommentProps> {
   get answerId(): UniqueEntityId {
-    return this.props.answerId
-  }
-
-  get createdAt(): Date {
-    return this.props.createdAt
-  }
-
-  get updatedAt(): Date | undefined {
-    return this.props.updatedAt
-  }
-
-  get excerpt(): string {
-    return this.content.substring(0, 120).trimEnd().concat('...')
-  }
-
-  set content(value: string) {
-    this.props.content = value
-    this.touch()
-  }
-
-  private touch() {
-    this.props.updatedAt = new Date()
+    return this.props.answerId;
   }
 
   static create(
-    props: Optional<AnswerCommentProps, 'createdAt'>,
-    id?: UniqueEntityId,
+    props: Optional<AnswerCommentProps, "createdAt">,
+    id?: UniqueEntityId
   ) {
     const answerComment = new AnswerComment(
       {
         ...props,
         createdAt: props.createdAt ?? new Date(),
       },
-      id,
-    )
+      id
+    );
 
-    return answerComment
+    return answerComment;
   }
 }
