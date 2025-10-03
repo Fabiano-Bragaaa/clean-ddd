@@ -2,6 +2,7 @@ import { QuestionRepository } from '@/domain/forum/application/repositories/ques
 import { Question } from '@/domain/forum/enterprise/entities/question'
 
 export class InMemoryQuestionsRepository implements QuestionRepository {
+  
   public questions: Question[] = []
 
   async create(question: Question): Promise<void> {
@@ -17,6 +18,21 @@ export class InMemoryQuestionsRepository implements QuestionRepository {
       return null
     }
 
+    return question
+  }
+
+  async delete(question: Question): Promise<void> {
+    const questionIndex = this.questions.findIndex(
+      (question) => question.id === question.id,
+    )
+    this.questions.splice(questionIndex, 1)
+  }
+
+  async findById(id: string): Promise<Question | null> {
+    const question = this.questions.find((question) => question.id.toString() === id)
+    if (!question) {
+      return null
+    }
     return question
   }
 }
