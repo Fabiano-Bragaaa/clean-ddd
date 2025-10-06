@@ -1,7 +1,10 @@
+import { PaginationParams } from "@/core/repositories/pagination-params";
 import { QuestionCommentsRepository } from "@/domain/forum/application/repositories/question-comments-repository";
 import { QuestionComment } from "@/domain/forum/enterprise/entities/question-comment";
 
-export class InMemoryQuestionCommentsRepository implements QuestionCommentsRepository {
+export class InMemoryQuestionCommentsRepository
+  implements QuestionCommentsRepository
+{
   public items: QuestionComment[] = [];
 
   async create(questionComment: QuestionComment): Promise<void> {
@@ -13,6 +16,17 @@ export class InMemoryQuestionCommentsRepository implements QuestionCommentsRepos
   }
 
   async delete(questionComment: QuestionComment): Promise<void> {
-    this.items = this.items.filter(item => item.id.toString() !== questionComment.id.toString());
+    this.items = this.items.filter(
+      item => item.id.toString() !== questionComment.id.toString()
+    );
+  }
+
+  async findManyByQuestionId(
+    questionId: string,
+    params: PaginationParams
+  ): Promise<QuestionComment[]> {
+    return this.items
+      .filter(item => item.questionId.toString() === questionId)
+      .slice((params.page - 1) * 20, params.page * 20);
   }
 }
