@@ -1,7 +1,7 @@
 export class Left<L, R> {
-  readonly value: any;
+  readonly value: L;
 
-  constructor(value: any) {
+  constructor(value: L) {
     this.value = value;
   }
 
@@ -15,9 +15,9 @@ export class Left<L, R> {
 }
 
 export class Right<L, R> {
-  readonly value: any;
+  readonly value: R;
 
-  constructor(value: any) {
+  constructor(value: R) {
     this.value = value;
   }
 
