@@ -30,9 +30,10 @@ describe("Fetch Question Answers", () => {
         questionId: new UniqueEntityId("1"),
       })
     );
-    const { answers } = await sut.execute({ page: 1, questionId: "1" });
+    const result = await sut.execute({ page: 1, questionId: "1" });
 
-    expect(answers).toEqual([
+    expect(result.isRight()).toBe(true)
+    expect(result.value?.answers).toEqual([
       expect.objectContaining({ createdAt: new Date(2022, 0, 23) }),
       expect.objectContaining({ createdAt: new Date(2022, 0, 20) }),
       expect.objectContaining({ createdAt: new Date(2022, 0, 18) }),
@@ -44,7 +45,8 @@ describe("Fetch Question Answers", () => {
         makeAnswer({ questionId: new UniqueEntityId("1") })
       );
     }
-    const { answers } = await sut.execute({ page: 2, questionId: "1" });
-    expect(answers).toHaveLength(2);
+    const result = await sut.execute({ page: 2, questionId: "1" });
+    expect(result.isRight()).toBe(true)
+    expect(result.value?.answers).toHaveLength(2);
   });
 });

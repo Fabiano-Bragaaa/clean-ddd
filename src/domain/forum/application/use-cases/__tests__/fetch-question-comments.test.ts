@@ -30,9 +30,10 @@ describe("Fetch Question Answers", () => {
         questionId: new UniqueEntityId("1"),
       })
     );
-    const { questionComments } = await sut.execute({ page: 1, questionId: "1" });
+    const result = await sut.execute({ page: 1, questionId: "1" });
 
-    expect(questionComments).toHaveLength(3);
+    expect(result.isRight()).toBe(true)
+    expect(result.value?.questionComments).toHaveLength(3);
   });
   it("should be able to fetch paginated question answers", async () => {
     for (let i = 0; i < 22; i++) {
@@ -40,7 +41,8 @@ describe("Fetch Question Answers", () => {
         makeQuestionComment({ questionId: new UniqueEntityId("1") })
       );
     }
-    const { questionComments } = await sut.execute({ page: 2, questionId: "1" });
-    expect(questionComments).toHaveLength(2);
+    const result = await sut.execute({ page: 2, questionId: "1" });
+    expect(result.isRight()).toBe(true)
+    expect(result.value?.questionComments).toHaveLength(2);
   });
 });
