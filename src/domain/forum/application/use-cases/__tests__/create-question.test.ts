@@ -19,7 +19,7 @@ describe('Create Question', () => {
     })
 
     expect(result.isRight()).toBe(true)
-    expect(result.value?.question.attachments).toEqual([
+    expect(result.value?.question.attachments.currentItems).toEqual([
       expect.objectContaining({
         attachmentId: new UniqueEntityId('1'),
       }),
